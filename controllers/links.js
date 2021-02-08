@@ -26,11 +26,9 @@ exports.getlink = asyncHandler(async (req, res, next) => {
             return next(new ErrorResponse(`Url not found with name of ${req.params.id}`, 404));
 
         } else {
-            //return res.redirect("http" + (request.socket.encrypted ? "s" : "") + "://" + link.address);
             return res.redirect(`https://${link.url}`);
         }
 
-        //res.status(200).json({sucess: true, data: link}); 
         
 });
 
