@@ -40,7 +40,6 @@ exports.createlink = asyncHandler(async(req, res, next) => {
     req.body.address = nanoid(5);
     req.body.url = req.body.url.replace(/^https?:\/\//,'');
     const link = await Link.create(req.body);
-    link.url = `koppi.xyz/${req.body.address}` //change url to .env
     res.status(201).json({
         sucess: true,
         data: link
