@@ -9,12 +9,12 @@ const LinkSchema = new mongoose.Schema({
             'Please use a valid URL with HTTP or HTTPS'
           ],
     },
+    address: {
+        type: String
+    },
     description:{
         type: String,
         maxlength: [100, 'Description can not be more that 100 characters'],
-    },
-    shortUrl: {
-        type: String
     },
     createdAt: {
         type: Date,

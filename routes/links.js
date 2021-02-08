@@ -11,9 +11,12 @@ const router = express.Router();
 
 router
     .route('/')
-    .get(getlinks)
     .post(createlink)
 
+router 
+    .route('/all')
+    .get(getlinks)
+    
 router
     .route('/:id')
     .get(getlink)

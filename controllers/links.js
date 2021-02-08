@@ -1,9 +1,10 @@
 const Link = require("../models/Link");
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
+const { nanoid } = require("nanoid");
 
 // @desc    Get all link
-// @route   GET /
+// @route   GET /all
 // @acess   Private/Admin
 exports.getlinks = asyncHandler(async (req, res, next) => {
     
@@ -19,14 +20,17 @@ exports.getlinks = asyncHandler(async (req, res, next) => {
 // @acess   Public
 exports.getlink = asyncHandler(async (req, res, next) => {
    
-        const link = await Link.findOne({url : req.params.id});
+        const link = await Link.findOne({address : req.params.id});
 
         if (!link) {
             return next(new ErrorResponse(`Url not found with name of ${req.params.id}`, 404));
 
+        } else {
+            //return res.redirect("http" + (request.socket.encrypted ? "s" : "") + "://" + link.address);
+            return res.redirect(`https://${link.url}`);
         }
 
-        res.status(200).json({sucess: true, data: link}); 
+        //res.status(200).json({sucess: true, data: link}); 
         
 });
 
@@ -35,8 +39,10 @@ exports.getlink = asyncHandler(async (req, res, next) => {
 // @acess   Public
 exports.createlink = asyncHandler(async(req, res, next) => {
     
+    req.body.address = nanoid(5);
+    req.body.url = req.body.url.replace(/^https?:\/\//,'');
     const link = await Link.create(req.body);
-        
+    link.url = `koppi.xyz/${req.body.address}` //change url to .env
     res.status(201).json({
         sucess: true,
         data: link
@@ -54,7 +60,8 @@ exports.updatelink = asyncHandler(async (req, res, next) => {
     });
 
     if(!link){
-        return res.status(400).json({success: false});
+        return next(new ErrorResponse(`Url not found with name of ${req.params.id}`, 404));
+
     }
 
     res.status(200).json({sucess: true, data: link});     
@@ -68,7 +75,7 @@ exports.deletelink = asyncHandler(async (req, res,  next) => {
     const link = await Link.findOneAndDelete({url : req.params.id});
 
     if(!link){
-        return res.status(400).json({success: false});
+        return next(new ErrorResponse(`Url not found with name of ${req.params.id}`, 404));
     }
 
     res.status(200).json({sucess: true, data: {} });
