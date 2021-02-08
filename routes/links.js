@@ -1,6 +1,7 @@
 const express = require('express');
 const {
     getlink,
+    getlinks,
     createlink,
     updatelink,
     deletelink
@@ -10,6 +11,7 @@ const router = express.Router();
 
 router
     .route('/')
+    .get(getlinks)
     .post(createlink)
 
 router
