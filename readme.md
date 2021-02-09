@@ -1,4 +1,4 @@
-# [Try Me](koppi.link)
+# [Try Me](https://koppi.link)
 
 # Koppi API
 
