@@ -58,6 +58,9 @@ app.use(hpp());
 // Enable CORS
 app.use(cors());
 
+// Set static folder
+app.use(express.static('public'))
+
 // Mount routers
 app.use('/', links);
 app.use('/auth', auth);
