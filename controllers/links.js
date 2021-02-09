@@ -9,9 +9,7 @@ const { nanoid } = require("nanoid");
 exports.getlinks = asyncHandler(async (req, res, next) => {
     
     //Make sure user is admin
-    //Hardcoded admin account
-    //Need to change in the future
-    if(req.user.id !== "602264c10c27e559715b0a23") {
+    if(req.user.role !== "admin") {
         return next(new ErrorResponse(`User ${req.user.id} is not authorized to access this link`, 401));
     }
     
