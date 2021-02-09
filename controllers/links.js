@@ -8,6 +8,13 @@ const { nanoid } = require("nanoid");
 // @acess   Private/Admin
 exports.getlinks = asyncHandler(async (req, res, next) => {
     
+    //Make sure user is admin
+    //Hardcoded admin account
+    //Need to change in the future
+    if(req.user.id !== "602264c10c27e559715b0a23") {
+        return next(new ErrorResponse(`User ${req.user.id} is not authorized to access this link`, 401));
+    }
+    
     const link = await Link.find();
  
     res.status(200).json({sucess: true, count:link.length,  data: link}); 
@@ -34,9 +41,29 @@ exports.getlink = asyncHandler(async (req, res, next) => {
 
 // @desc    Create new link
 // @route   POST /
-// @acess   Public
+// @acess   Private
 exports.createlink = asyncHandler(async(req, res, next) => {
     
+    //Add user to req.body
+    req.body.user = req.user.id;
+
+    req.body.address = nanoid(5);
+    req.body.url = req.body.url.replace(/^https?:\/\//,'');
+    const link = await Link.create(req.body);
+    res.status(201).json({
+        sucess: true,
+        data: link
+    }); 
+ 
+});
+
+
+// @desc    Create new unregistered link
+// @route   POST /un
+// @acess   Public
+exports.createUnregisteredLink = asyncHandler(async(req, res, next) => {
+    
+   
     req.body.address = nanoid(5);
     req.body.url = req.body.url.replace(/^https?:\/\//,'');
     const link = await Link.create(req.body);
@@ -51,15 +78,25 @@ exports.createlink = asyncHandler(async(req, res, next) => {
 // @route   PUT /:id
 // @acess   Private
 exports.updatelink = asyncHandler(async (req, res, next) => {
-    const link = await Link.findOneAndUpdate({url : req.params.id}, req.body, {
-        new: true,
-        runValidators: true
-    });
+    
+    
+
+    link = await Link.findOne({address : req.params.id});
 
     if(!link){
         return next(new ErrorResponse(`Url not found with name of ${req.params.id}`, 404));
 
+    }   
+
+    //Make sure user is link owner
+    if(link.user.toString() !== req.user.id) {
+        return next(new ErrorResponse(`User ${req.user.id} is not authorized to update this link`, 401));
     }
+
+    link = await Link.findOneAndUpdate({address : req.params.id}, req.body, {
+        new: true,
+        runValidators: true
+    });
 
     res.status(200).json({sucess: true, data: link});     
 });
@@ -69,11 +106,18 @@ exports.updatelink = asyncHandler(async (req, res, next) => {
 // @route   PELETE /:id
 // @acess   Private
 exports.deletelink = asyncHandler(async (req, res,  next) => {
-    const link = await Link.findOneAndDelete({url : req.params.id});
+    const link = await Link.findOne({address : req.params.id});
 
     if(!link){
         return next(new ErrorResponse(`Url not found with name of ${req.params.id}`, 404));
     }
+
+    //Make sure user is link owner
+    if(link.user.toString() !== req.user.id) {
+        return next(new ErrorResponse(`User ${req.user.id} is not authorized to delete this link`, 401));
+    }
+
+    link.remove();
 
     res.status(200).json({sucess: true, data: {} });
 });    

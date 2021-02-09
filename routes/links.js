@@ -4,23 +4,32 @@ const {
     getlinks,
     createlink,
     updatelink,
-    deletelink
+    deletelink,
+    createUnregisteredLink
 } = require('../controllers/links');
 
 const router = express.Router();
 
+const { protect } = require('../middleware/auth');
+
+
 router
     .route('/')
-    .post(createlink)
+    .post(protect, createlink)
+
+router
+    .route('/un')
+    .post(createUnregisteredLink)
+
 
 router 
     .route('/all')
-    .get(getlinks)
+    .get(protect, getlinks)
     
 router
     .route('/:id')
     .get(getlink)
-    .put(updatelink)
-    .delete(deletelink)
+    .put(protect, updatelink)
+    .delete(protect, deletelink)
 
 module.exports = router;
