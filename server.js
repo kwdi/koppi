@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const connectDB = require('./config/db');
 const colors = require('colors');
 const errorHandler = require('./middleware/error');
-
+const cookieParser = require('cookie-parser');
 
 // Load env vars
 dotenv.config({path: './config/config.env'});
@@ -14,12 +14,16 @@ connectDB();
 
 // Route files
 const links = require('./routes/links');
+const auth = require('./routes/auth');
+
 
 const app = express();
 
 // Body parser
 app.use(express.json());
 
+// Cookie parser
+app.use(cookieParser());
 
 // Dev logging middleware
 if(process.env.NODE_ENV === 'development') {
@@ -28,6 +32,7 @@ if(process.env.NODE_ENV === 'development') {
 
 // Mount routers
 app.use('/', links);
+app.use('/auth', auth);
 
 
 app.use(errorHandler);

@@ -32,5 +32,6 @@ const deleteData = async () => {
   if (process.argv[2] === '-d') {
     deleteData();
   } else {
-      console.log("-d to delete data");
+      console.log('Use argument -d to clean the db'.cyan.inverse);
+      process.exit();
   }
