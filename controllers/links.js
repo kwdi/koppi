@@ -65,9 +65,11 @@ exports.createUnregisteredLink = asyncHandler(async(req, res, next) => {
     req.body.address = nanoid(5);
     req.body.url = req.body.url.replace(/^https?:\/\//,'');
     const link = await Link.create(req.body);
+    const {address} = link
     res.status(201).json({
         sucess: true,
-        data: link
+        data:
+        "https://koppi.link/"+address
     }); 
  
 });

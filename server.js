@@ -11,6 +11,8 @@ const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
+const path = require('path');
+
 
 // Load env vars
 dotenv.config({path: './config/config.env'});
@@ -27,9 +29,11 @@ const app = express();
 
 // Body parser
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Cookie parser
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
 
 // Dev logging middleware
 if(process.env.NODE_ENV === 'development') {
@@ -48,7 +52,7 @@ app.use(xss());
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 mins
-  max: 10
+  max: 500
 });
 app.use(limiter);
 
@@ -60,6 +64,10 @@ app.use(cors());
 
 // Set static folder
 app.use(express.static('public'))
+app.get('/create', function(req, res) {
+  res.sendFile(__dirname +'/public/create.html');
+});
+
 
 // Mount routers
 app.use('/', links);
