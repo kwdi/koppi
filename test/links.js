@@ -19,6 +19,9 @@ describe('Links', () => {
     //     });
     // });
 
+    // @desc    Test the /GET route
+    // @route   GET /
+    // @acess   Public
     describe('/GET link', () => {
         it('it should GET one link', (done) => {
             chai.request(server)
