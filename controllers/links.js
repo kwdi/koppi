@@ -5,7 +5,7 @@ const { nanoid } = require("nanoid");
 
 // @desc    Get all link
 // @route   GET /all
-// @acess   Private/Admin
+// @access   Private/Admin
 exports.getlinks = asyncHandler(async (req, res, next) => {
     
     //Make sure user is admin
@@ -15,14 +15,14 @@ exports.getlinks = asyncHandler(async (req, res, next) => {
     
     const link = await Link.find();
  
-    res.status(200).json({sucess: true, count:link.length,  data: link}); 
+    res.status(200).json({success: true, count:link.length,  data: link}); 
              
  });
 
 
 // @desc    Get single link
 // @route   GET /:id
-// @acess   Public
+// @access   Public
 exports.getlink = asyncHandler(async (req, res, next) => {
    
         const link = await Link.findOne({address : req.params.id});
@@ -39,44 +39,52 @@ exports.getlink = asyncHandler(async (req, res, next) => {
 
 // @desc    Create new link
 // @route   POST /
-// @acess   Private
+// @access   Private
 exports.createlink = asyncHandler(async(req, res, next) => {
     
     //Add user to req.body
     req.body.user = req.user.id;
-
+    
     req.body.address = nanoid(5);
     req.body.url = req.body.url.replace(/^https?:\/\//,'');
     const link = await Link.create(req.body);
+    const {address} = link
+    const result = `https://koppi.link/`+address;
     res.status(201).json({
-        sucess: true,
-        data: link
+        success: true,
+        data: link,
+        result
     }); 
  
 });
 
 
 // @desc    Create new unregistered link
-// @route   POST /un
-// @acess   Public
+// @route   POST /unreg
+// @access   Public
 exports.createUnregisteredLink = asyncHandler(async(req, res, next) => {
     
-   
+    if(!req.body.url){
+        return next(new ErrorResponse(`Bad Request`, 400));
+    }
+
     req.body.address = nanoid(5);
     req.body.url = req.body.url.replace(/^https?:\/\//,'');
     const link = await Link.create(req.body);
     const {address} = link
+    const result = `https://koppi.link/`+address;
+    
     res.status(201).json({
-        sucess: true,
-        data:
-        "https://koppi.link/"+address
+        success: true,
+        data: link,
+        result
     }); 
  
 });
 
 // @desc    Update link
 // @route   PUT /:id
-// @acess   Private
+// @access   Private
 exports.updatelink = asyncHandler(async (req, res, next) => {
     
     
@@ -90,7 +98,7 @@ exports.updatelink = asyncHandler(async (req, res, next) => {
     
     if(req.user.role == "admin"){
         link.remove();
-        return res.status(200).json({sucess: true, data: link});  
+        return res.status(200).json({success: true, data: link});  
     }
 
     //Make sure user is link owner
@@ -103,13 +111,13 @@ exports.updatelink = asyncHandler(async (req, res, next) => {
         runValidators: true
     });
 
-    res.status(200).json({sucess: true, data: link});     
+    res.status(200).json({success: true, data: link});     
 });
 
 
 // @desc    Delete link
 // @route   PELETE /:id
-// @acess   Private
+// @access   Private
 exports.deletelink = asyncHandler(async (req, res,  next) => {
     const link = await Link.findOne({address : req.params.id});
 
@@ -126,5 +134,5 @@ exports.deletelink = asyncHandler(async (req, res,  next) => {
 
     link.remove();
 
-    res.status(200).json({sucess: true, data: {} });
+    res.status(200).json({success: true, data: {} });
 });    

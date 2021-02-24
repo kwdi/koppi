@@ -18,7 +18,7 @@ router
     .post(protect, createlink)
 
 router
-    .route('/un')
+    .route('/unreg')
     .post(createUnregisteredLink)
 
 
