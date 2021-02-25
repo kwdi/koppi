@@ -40,6 +40,8 @@ if(process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
+if(process.env.NODE_ENV != 'testing') {
+
 // Sanitize data
 app.use(mongoSanitize());
 
@@ -59,6 +61,7 @@ app.use(limiter);
 // Prevent http param pollution
 app.use(hpp());
 
+};
 // Enable CORS
 app.use(cors());
 

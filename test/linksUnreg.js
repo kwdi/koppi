@@ -10,14 +10,14 @@ chai.use(chaiHttp);
 
 
 let urlID;
-let token;
 
-describe('Links', () => {
-    // beforeEach((done) => {
-    //     Link.deleteMany({}, (err) => {
-    //        done();
-    //     });
-    // });
+
+describe('Links Unregistered', () => {
+    after((done) => {
+        Link.deleteMany({}, (err) => {
+           done();
+        });
+    });
 
     // @desc    Test the /GET route
     // @route   GET /
