@@ -34,7 +34,7 @@ Rename "config/config.env.env" to "config/config.env" and update settings
 npm install
 ```
 
-## Run App
+## Run App without docker
 
 ```
 # Run in dev mode
@@ -46,6 +46,18 @@ npm start
 # Run tests
 npm run tests
 ```
+
+## Run App with docker in production
+
+```
+# build docker image
+sudo docker build -t koppi .
+
+# run docker
+sudo docker run -dp 5000:5000 koppi
+```
+
+
 
 -Version 1.0.1
 
