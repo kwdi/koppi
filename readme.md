@@ -28,13 +28,15 @@ Auth:
 
 Rename "config/config.env.env" to "config/config.env" and update settings
 
-## Instal Dependencies
+
+## Run App
+
+#### Install Dependencies
 
 ```
 npm install
 ```
-
-## Run App without docker
+#### Run
 
 ```
 # Run in dev mode
@@ -47,7 +49,7 @@ npm start
 npm run tests
 ```
 
-## Run App with docker in production
+## Alternative Run App with docker in production
 
 ```
 # build docker image
