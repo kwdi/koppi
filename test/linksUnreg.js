@@ -48,7 +48,7 @@ describe('Links Unregistered', () => {
                 .post('/unreg')
                 .send(link)
                 .end((err, res) => {
-                    urlID=res.body.data.address;
+                    urlID=res.body.data.shortAddress;
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property('success').eql(true);

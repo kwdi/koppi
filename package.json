@@ -25,6 +25,7 @@
     "mongoose": "^5.11.15",
     "morgan": "^1.10.0",
     "nanoid": "^3.1.20",
+    "swagger-ui-express": "^4.1.6",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

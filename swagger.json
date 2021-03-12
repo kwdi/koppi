@@ -1,0 +1,404 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.1",
+    "title": "koppi.link",
+    "description": "Koppi is a url shortener API.",
+    "contact": {"email": "github.com/kwdi"},
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "externalDocs": {
+    "description": "Use koppi.link",
+    "url": "https://koppi.link"
+  },
+  "host": "koppi.link",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+
+  "paths": {
+    "/unreg": {
+      "post": {
+        "description": "Post url that will be shortened",
+        "summary": "Create a shortened link (unregistered users)",
+        "tags": [
+          "URL shortener CRUD"
+        ],
+        "operationId": "Createashortenedlink(unregisteredusers)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UrlRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/": {
+      "post": {
+        "description": "Post url that will be shortened",
+        "summary": "Create  shortened link (registered users)",
+        "tags": [
+          "URL shortener CRUD"
+        ],
+        "operationId": "Createshortenedlink(registeredusers)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UrlRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },    
+    "/{shortAddress}": {
+      "get": {
+        "description": "Get redirected to the where the shortend url point to",
+        "summary": "Get redirected",
+        "tags": [
+          "URL shortener CRUD"
+        ],
+        "operationId": "Getredirected",
+        "deprecated": false,
+        "produces": [
+          "application/http"
+        ],
+        "parameters": [
+          {
+            "name": "shortAddress",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "description": "PUT/Update shortened id url which actual url you want to update",
+        "summary": "Update shortened link  (registered users)",
+        "tags": [
+          "URL shortener CRUD"
+        ],
+        "operationId": "Updateshortenedlink(registeredusers)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UrlRequest"
+            }
+          },
+          {
+            "name": "shortAddress",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete shortened link url",
+        "summary": "Delete shortened link  (registered users)",
+        "tags": [
+          "URL shortener CRUD"
+        ],
+        "operationId": "Deleteshortenedlink(registeredusers)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "shortAddress",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/all": {
+      "get": {
+        "description": "Get all shortened links. Admin only",
+        "summary": "Get all shortened links (admin only)",
+        "tags": [
+          "URL shortener CRUD"
+        ],
+        "operationId": "Getallshortenedlinks(adminonly)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "description": "Register new user with email and password.\nReturns bearer token\n",
+        "summary": "Register new user",
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "Registernewuser",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+        {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "Login user with email and password.\nReturns bearer token\n",
+        "summary": "Login user",
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "Loginuser",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "description": "Get info of the current logged in user",
+        "summary": "Get logged in user info",
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "Getloggedinuserinfo",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "description": "Logs out current user",
+        "summary": "Logout current user",
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "Logoutcurrentuser",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UrlRequest": {
+      "title": "Url Request",
+      "example": {
+        "url": "https://example.com"
+      },
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },  
+    "UserRequest": {
+      "title": "User Request",
+      "example": {
+        "email": "name@email.com",
+        "password": "123456"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "URL shortener CRUD",
+      "description": "Routes for urls\n"
+    },
+    {
+      "name": "Authentication",
+      "description": "Routes for user authentication\n"
+    }
+  ]
+}

@@ -9,7 +9,7 @@ const LinkSchema = new mongoose.Schema({
             'Please use a valid URL with HTTP or HTTPS'
           ],
     },
-    address: {
+    shortAddress: {
         type: String
     },
     description:{

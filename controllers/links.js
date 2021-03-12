@@ -25,7 +25,7 @@ exports.getlinks = asyncHandler(async (req, res, next) => {
 // @access   Public
 exports.getlink = asyncHandler(async (req, res, next) => {
    
-        const link = await Link.findOne({address : req.params.id});
+        const link = await Link.findOne({shortAddress : req.params.id});
 
         if (!link) {
             return next(new ErrorResponse(`Url not found with name of ${req.params.id}`, 404));
@@ -45,11 +45,11 @@ exports.createlink = asyncHandler(async(req, res, next) => {
     //Add user to req.body
     req.body.user = req.user.id;
     
-    req.body.address = nanoid(5);
+    req.body.shortAddress = nanoid(5);
     req.body.url = req.body.url.replace(/^https?:\/\//,'');
     const link = await Link.create(req.body);
-    const {address} = link
-    const result = `https://koppi.link/`+address;
+    const {shortAddress} = link
+    const result = `https://koppi.link/`+shortAddress;
     res.status(201).json({
         success: true,
         data: link,
@@ -68,11 +68,11 @@ exports.createUnregisteredLink = asyncHandler(async(req, res, next) => {
         return next(new ErrorResponse(`Bad Request`, 400));
     }
 
-    req.body.address = nanoid(5);
+    req.body.shortAddress = nanoid(5);
     req.body.url = req.body.url.replace(/^https?:\/\//,'');
     const link = await Link.create(req.body);
-    const {address} = link
-    const result = `https://koppi.link/`+address;
+    const {shortAddress} = link
+    const result = `https://koppi.link/`+shortAddress;
     
     res.status(201).json({
         success: true,
@@ -89,7 +89,7 @@ exports.updatelink = asyncHandler(async (req, res, next) => {
     
     
 
-    link = await Link.findOne({address : req.params.id});
+    link = await Link.findOne({shortAddress : req.params.id});
 
     if(!link){
         return next(new ErrorResponse(`Url not found with name of ${req.params.id}`, 404));
@@ -106,7 +106,7 @@ exports.updatelink = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse(`User ${req.user.id} is not authorized to update this link`, 401));
     }
 
-    link = await Link.findOneAndUpdate({address : req.params.id}, req.body, {
+    link = await Link.findOneAndUpdate({shortAddress : req.params.id}, req.body, {
         new: true,
         runValidators: true
     });
@@ -119,7 +119,7 @@ exports.updatelink = asyncHandler(async (req, res, next) => {
 // @route   PELETE /:id
 // @access   Private
 exports.deletelink = asyncHandler(async (req, res,  next) => {
-    const link = await Link.findOne({address : req.params.id});
+    const link = await Link.findOne({shortAddress : req.params.id});
 
     if(!link){
         return next(new ErrorResponse(`Url not found with name of ${req.params.id}`, 404));

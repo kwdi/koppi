@@ -6,6 +6,7 @@
 
 - Written in node.js using express and mongodb
 - Testing with mocha and chai
+- Documentation with Swagger
 
 ## Features implemented
 
@@ -28,7 +29,6 @@ Auth:
 
 Rename "config/config.env.env" to "config/config.env" and update settings
 
-
 ## Run App
 
 #### Install Dependencies
@@ -36,6 +36,7 @@ Rename "config/config.env.env" to "config/config.env" and update settings
 ```
 npm install
 ```
+
 #### Run
 
 ```
@@ -58,8 +59,6 @@ sudo docker build -t koppi .
 # run docker
 sudo docker run -dp 5000:5000 koppi
 ```
-
-
 
 -Version 1.0.1
 

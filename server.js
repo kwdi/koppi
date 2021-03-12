@@ -12,6 +12,8 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 
 // Load env vars
@@ -67,9 +69,9 @@ app.use(cors());
 
 // Set static folder
 app.use(express.static('public'))
-app.get('/create', function(req, res) {
-  res.sendFile(__dirname +'/public/create.html');
-});
+
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 // Mount routers
