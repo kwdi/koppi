@@ -1,6 +1,6 @@
-# [Try Me](https://koppi.link)
+# [Documentation](https://koppi.link/api-docs/)
 
-# Koppi API
+# Koppi API [Try Me](https://koppi.link)
 
 > Backend API for Koppi a url shortener
 
