@@ -14,9 +14,10 @@
     "description": "Use koppi.link",
     "url": "https://koppi.link"
   },
-  "host": "koppi.link",
+  "host": "localhost:5000",
   "basePath": "/",
   "schemes": [
+    "http",
     "https"
   ],
 
@@ -107,7 +108,7 @@
         "operationId": "Getredirected",
         "deprecated": false,
         "produces": [
-          "application/http"
+          "text/html"
         ],
         "parameters": [
           {
