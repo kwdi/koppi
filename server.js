@@ -65,7 +65,7 @@ app.use(hpp());
 
 };
 // Enable CORS
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
 
 // Set static folder
 app.use(express.static('public'))
